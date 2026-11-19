@@ -9,6 +9,7 @@
     "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
     "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
     "check": "ASTRO_TELEMETRY_DISABLED=1 astro check && eslint . && ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "e2e": "playwright test",
     "test:e2e": "playwright test"
   },
   "repository": {
