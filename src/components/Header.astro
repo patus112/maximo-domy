@@ -1,0 +1,33 @@
+---
+import { nav, site } from '../config/site';
+import { asset, page } from '../lib/url';
+
+const current = Astro.url.pathname;
+function currentPath(href: string): boolean {
+  const target = asset(href);
+  return current === target || current === target.replace(/\/$/, '');
+}
+---
+
+<a class="skip" href="#main">Preskočiť na obsah</a>
+<header class="site-header">
+  <div class="header-bar">
+    <a class="logo" href={page('/')}>Maximo</a>
+    <nav class="nav" aria-label="Hlavné">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={page(item.href)} aria-current={currentPath(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="btn btn-solid header-phone" href={site.phone.href}>
+      Zavolať <span>{site.phone.display}</span>
+    </a>
+  </div>
+</header>

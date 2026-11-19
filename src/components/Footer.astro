@@ -1,0 +1,41 @@
+---
+import { nav, site } from '../config/site';
+import { page } from '../lib/url';
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h2>Sídlo</h2>
+      <p>
+        <strong>{site.legal.name}</strong><br />
+        {site.legal.street}<br />
+        {site.legal.zip} {site.legal.city}
+      </p>
+      <p>
+        IČO: {site.legal.ico}<br />
+        DIČ: {site.legal.dic}<br />
+        IČ DPH: {site.legal.vat}
+      </p>
+      <p>{site.legal.registry}</p>
+      <p>Obrazový materiál pochádza z katalógu dodávateľa.</p>
+    </div>
+    <div>
+      <h2>Stránky</h2>
+      <ul>
+        {nav.map((item) => (
+          <li><a href={page(item.href)}>{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      <h2>Obhliadka</h2>
+      <p>
+        <a href={site.phone.href}>{site.phone.display}</a><br />
+        {site.showhouse.street}<br />
+        {site.showhouse.zip} {site.showhouse.city}
+      </p>
+      <p>{site.showhouse.note}</p>
+    </div>
+  </div>
+</footer>

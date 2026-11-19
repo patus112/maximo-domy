@@ -1,0 +1,205 @@
+---
+import Picture from './Picture.astro';
+import Shot from './Shot.astro';
+import { frameSwatches } from '../config/site';
+import { optionCategory, optionLines } from '../lib/catalog';
+import type { ImageId } from '../lib/images';
+
+const frameNames = optionCategory('frame_color')?.sk_values_draft ?? [];
+const panels = optionLines(optionCategory('panel_core'));
+const floors = optionLines(optionCategory('floor'));
+const windows = optionLines(optionCategory('windows'));
+const kitchens = optionLines(optionCategory('outdoor_kitchen'));
+const pools = optionLines(optionCategory('pool'));
+
+const facades: { id: ImageId; alt: string }[] = [
+  { id: 'facade-07', alt: 'Biela fasáda s čiernym rámom' },
+  { id: 'facade-12', alt: 'Tmavosivá fasáda' },
+  { id: 'facade-13', alt: 'Hnedý drevodekor fasády' },
+  { id: 'facade-17', alt: 'Oranžový drevodekor fasády' },
+  { id: 'facade-20', alt: 'Svetlý drevodekor fasády' },
+  { id: 'facade-24', alt: 'Tmavosivá fasáda s čiernym rámom' },
+  { id: 'facade-27', alt: 'Biela fasáda s oranžovým dekorom' },
+  { id: 'facade-29', alt: 'Zelená fasáda' },
+];
+
+const windowShots: { id: ImageId; alt: string }[] = [
+  { id: 'window-04', alt: 'Posuvné okná s čiernym rámom' },
+  { id: 'window-05', alt: 'Panoramatické okná na drevodekore' },
+  { id: 'window-07', alt: 'Panoramatické presklenie' },
+];
+
+const kitchenShots: { id: ImageId; alt: string }[] = [
+  { id: 'kitchen-05', alt: 'Biela kuchynská linka v tvare L' },
+  { id: 'kitchen-13', alt: 'Biela kuchyňa s čiernou doskou' },
+  { id: 'kitchen-18', alt: 'Kuchynská linka v tvare U' },
+];
+
+const bathShots: { id: ImageId; alt: string }[] = [
+  { id: 'bathroom-01', alt: 'Kúpeľňa so sprchou a obkladom s mramorovým vzorom' },
+  { id: 'bathroom-13', alt: 'Kúpeľňa so sprchou a umývadlom' },
+  { id: 'bathroom-24', alt: 'Kúpeľňa s veľkým umývadlom' },
+];
+
+const renders: { id: ImageId; alt: string }[] = [
+  { id: 'facade-render-15', alt: 'Vizualizácia domu s terasou v lese' },
+  { id: 'facade-render-16', alt: 'Vizualizácia domu s dreveným obkladom a terasou' },
+];
+---
+
+<section class="section" id="vybava" aria-labelledby="gear-title">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Katalóg dodávateľa</p>
+      <h2 id="gear-title">Materiály a výbava</h2>
+      <p>
+        Nižšie je výber z katalógu. Čo je v základnej dodávke a čo je príplatok, povie až cenová ponuka.
+        Cenovú ponuku vám pripravíme na mieru.
+      </p>
+    </div>
+
+    <article class="material">
+      <h3>Rám a farby</h3>
+      <p class="lede">
+        Oceľový pozinkovaný rám. Farebné kruhy sú len orientačné, nie sú to vzorky povrchu.
+        Pre Slovensko rátame s európskou elektrickou normou.
+      </p>
+      <div class="picker frame-picker">
+        {
+          frameNames.map((name, index) => (
+            <input type="radio" name="ram" id={`ram-${index}`} checked={index === 0} />
+          ))
+        }
+        <div class="swatch-row">
+          {
+            frameNames.map((name, index) => (
+              <label class="swatch" for={`ram-${index}`}>
+                <span class="chip" style={`background:${frameSwatches[index]?.hex ?? '#888'}`} aria-hidden="true" />
+                <span>{name}</span>
+              </label>
+            ))
+          }
+        </div>
+        <div class="names">
+          {frameNames.map((name) => <p class="stat">{name}</p>)}
+        </div>
+      </div>
+    </article>
+
+    <article class="material">
+      <h3>Panely</h3>
+      <p class="lede">{optionCategory('interior_wall')?.sk_draft}</p>
+      <ul class="option-list">
+        {panels.map((item) => <li>{item}</li>)}
+      </ul>
+      <div class="pair">
+        <figure>
+          <Picture id="structure-05" alt="Detail rámu a podlahy z katalógu dodávateľa." sizes="(min-width: 800px) 40vw, 100vw" />
+          <figcaption class="caption">Rám a podlaha. Záber z katalógu dodávateľa.</figcaption>
+        </figure>
+        <figure>
+          <Picture id="detail-connectors" alt="Detail prípojok vody a elektriny z katalógu dodávateľa." sizes="(min-width: 800px) 30vw, 100vw" />
+          <figcaption class="caption">Prípojky. Záber z katalógu dodávateľa.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="material">
+      <h3>Fasáda</h3>
+      <p class="lede">{optionCategory('facade')?.sk_draft} Vyberte vzorku, náhľad sa vymení.</p>
+      <div class="picker">
+        {facades.map((item, index) => (
+          <input type="radio" name="fasada" id={`fasada-${index}`} checked={index === 0} />
+        ))}
+        <div class="swatch-row">
+          {facades.map((item, index) => (
+            <label for={`fasada-${index}`}>{item.alt}</label>
+          ))}
+        </div>
+        <div class="preview-frame">
+          {facades.map((item) => (
+            <Shot id={item.id} alt={item.alt} group="facade" sizes="(min-width: 800px) 50vw, 100vw" />
+          ))}
+        </div>
+      </div>
+    </article>
+
+    <article class="material">
+      <h3>Podlahy</h3>
+      <div class="picker floor-picker">
+        {floors.map((item, index) => (
+          <input type="radio" name="podlaha" id={`podlaha-${index}`} checked={index === 0} />
+        ))}
+        <div class="swatch-row">
+          {floors.map((item, index) => (
+            <label for={`podlaha-${index}`}>{item}</label>
+          ))}
+        </div>
+        <div class="names">
+          {floors.map((item) => <p>{item}</p>)}
+        </div>
+      </div>
+      <figure class="pair">
+        <Picture id="structure-03" alt="Podlahová konštrukcia z katalógu dodávateľa." sizes="(min-width: 800px) 40vw, 100vw" />
+      </figure>
+      <p class="caption">Podlahová konštrukcia. Záber z katalógu dodávateľa.</p>
+    </article>
+
+    <article class="material">
+      <h3>Okná a dvere</h3>
+      <p class="lede">
+        {optionCategory('doors')?.sk_draft}. Konkrétny vzhľad dverí upresníme v ponuke, v podkladoch nie je samostatný zoznam typov.
+      </p>
+      <ul class="option-list">
+        {windows.map((item) => <li>{item}</li>)}
+      </ul>
+      <div class="media-grid">
+        {windowShots.map((item) => <Shot id={item.id} alt={item.alt} group="windows" sizes="(min-width: 800px) 22vw, 46vw" />)}
+      </div>
+    </article>
+
+    <article class="material">
+      <h3>Kuchyňa a kúpeľňa</h3>
+      <p class="lede">
+        {optionCategory('kitchen')?.sk_draft}. {optionCategory('bathroom_cabinet')?.sk_draft}.
+      </p>
+      <div class="media-grid">
+        {kitchenShots.map((item) => <Shot id={item.id} alt={item.alt} group="kitchen" sizes="(min-width: 800px) 22vw, 46vw" />)}
+        {bathShots.map((item) => <Shot id={item.id} alt={item.alt} group="bath" sizes="(min-width: 800px) 22vw, 46vw" />)}
+      </div>
+    </article>
+
+    <article class="material">
+      <h3>Osadenie</h3>
+      <p class="lede">
+        Na fotografiách z katalógu je dom na bodových základoch. Na jednom zábere je aj žeriav.
+        Spôsob uloženia na váš pozemok závisí od prístupu a podložia.
+      </p>
+      <div class="pair">
+        <figure>
+          <Picture id="install-site" alt="Osadenie domu na bodové základy, na zábere je žeriav. Katalóg dodávateľa." sizes="(min-width: 800px) 40vw, 100vw" />
+          <figcaption class="caption">Osadenie so žeriavom. Záber z katalógu, nie z Nebojse.</figcaption>
+        </figure>
+        <figure>
+          <Picture id="install-site2" alt="Pracovníci pri osadení domu na základy. Katalóg dodávateľa." sizes="(min-width: 800px) 40vw, 100vw" />
+          <figcaption class="caption">Osadenie na základy. Záber z katalógu dodávateľa.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <article class="material">
+      <h3>Ďalšie možnosti z katalógu</h3>
+      <ul class="option-list">
+        <li>{optionCategory('terrace')?.sk_draft}</li>
+        <li>{optionCategory('glass_curtain_wall')?.sk_draft}</li>
+        <li>{optionCategory('roof')?.sk_draft}</li>
+        {kitchens.map((item) => <li>Vonkajšia kuchyňa: {item}</li>)}
+        {pools.map((item) => <li>Bazén: {item}</li>)}
+      </ul>
+      <div class="media-grid">
+        {renders.map((item) => <Shot id={item.id} alt={item.alt} group="renders" sizes="(min-width: 800px) 30vw, 100vw" />)}
+      </div>
+      <p class="caption">Vizualizácie z katalógu. Nie sú to fotografie domu v Nebojsi.</p>
+    </article>
+  </div>
+</section>

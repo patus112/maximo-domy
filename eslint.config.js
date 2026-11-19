@@ -1,0 +1,36 @@
+import js from '@eslint/js';
+import astro from 'eslint-plugin-astro';
+import tseslint from 'typescript-eslint';
+
+export default [
+  {
+    ignores: [
+      'dist/**',
+      '.astro/**',
+      'node_modules/**',
+      'public/**',
+      'src/assets/**',
+      'playwright-report/**',
+      'test-results/**',
+    ],
+  },
+  {
+    files: ['astro.config.mjs', 'scripts/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        fetch: 'readonly',
+        setTimeout: 'readonly',
+        console: 'readonly',
+      },
+    },
+  },
+  js.configs.recommended,
+  ...tseslint.configs.recommended,
+  ...astro.configs['flat/recommended'],
+  {
+    rules: {
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
+  },
+];

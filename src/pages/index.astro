@@ -1,0 +1,260 @@
+---
+import Picture from '../components/Picture.astro';
+import Shot from '../components/Shot.astro';
+import Hero from '../components/Hero.astro';
+import InlineVideo from '../components/InlineVideo.astro';
+import Showhouse from '../components/Showhouse.astro';
+import Base from '../layouts/Base.astro';
+import { faqs, sellingPoints, stepDetails } from '../config/site';
+import { models, stepTitles } from '../lib/catalog';
+import { containerCount, formatArea } from '../lib/format';
+import { imageCaption, isImageId, isRender } from '../lib/images';
+import { poster } from '../lib/video';
+import { page } from '../lib/url';
+
+const featured = ['10ft', '20ft', '30ft', '40ft']
+  .map((id) => models.find((model) => model.id === id))
+  .filter((model) => model !== undefined);
+
+const tour = [
+  { id: 'tour20-01' as const, alt: '20 ft dom v predvádzacej hale, čierny rám a trávnik' },
+  { id: 'tour20-03' as const, alt: '20 ft dom, čelný pohľad s presklením' },
+  { id: 'tour20-04' as const, alt: '20 ft dom, bočný pohľad' },
+  { id: 'tour20-05' as const, alt: 'Tmavý 20 ft dom na trávniku' },
+  { id: 'tour20-06' as const, alt: 'Interiér 20 ft domu, kuchynský kút' },
+  { id: 'tour20-07' as const, alt: 'Interiér 20 ft domu, presklené dvere' },
+  { id: 'tour20-08' as const, alt: 'Kúpeľňa 20 ft domu' },
+  { id: 'tour20-09' as const, alt: 'Obývacia časť 20 ft domu' },
+];
+
+const find = (id: string) => models.find((model) => model.id === id);
+const ten = find('10ft');
+const twenty = find('20ft');
+const thirty = find('30ft');
+const forty = find('40ft');
+const steps = stepTitles.map((title, index) => ({ title, text: stepDetails[index] ?? '' }));
+---
+
+<Base
+  title="Maximo — dom, ktorý sa rozloží za pár hodín"
+  description="Skladacie modulárne domy Maximo. Oceľový rám, izolované panely, preprava v kontajneri. Vzorový dom v Nebojsi, obhliadka po telefonickej dohode."
+  lcpPoster={{ tall: poster('hero-expand'), wide: poster('hero-expand-wide') }}
+>
+  <main id="main">
+    <Hero />
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {
+          [...sellingPoints, ...sellingPoints].map((point) => (
+            <span>{point.title}</span>
+          ))
+        }
+      </div>
+    </div>
+
+    <section class="section" id="ponuka" aria-labelledby="points-title">
+      <div class="wrap">
+        <div class="section-head rise">
+          <p class="eyebrow">Prečo tento dom</p>
+          <h2 id="points-title">Bývanie, ktoré príde zložené</h2>
+        </div>
+        <div class="bento">
+          <article class="bento-video">
+            <InlineVideo
+              id="staged"
+              wideId="staged-wide"
+              class="clip-wide"
+              width={1280}
+              height={720}
+              label="Zariadený 20 ft dom. Video je bez zvuku."
+            />
+          </article>
+          <article class="bento-stat">
+            <p class="stat">18–146</p>
+            <p>m² v katalógu, od 10 ft po spojený 40 ft</p>
+          </article>
+          <article class="bento-stat bento-accent">
+            <p class="stat">25–40</p>
+            <p>dní výroba</p>
+          </article>
+          <article class="bento-photo">
+            <Picture id="lineup" alt="Dom s tmavým rámom a terasou, záber z katalógu dodávateľa." sizes="(min-width: 900px) 24vw, 100vw" />
+          </article>
+          <article class="bento-stat">
+            <p class="stat">4</p>
+            <p>domy 10 ft sa zmestia do jedného kontajnera 40′ HC</p>
+          </article>
+          <ul class="bento-features">
+            {
+              sellingPoints.map((point) => (
+                <li>
+                  <h3>{point.title}</h3>
+                  <p>{point.text}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <figure class="band">
+      <Picture
+        id="lineup"
+        alt="Dom s tmavým rámom a terasou v zeleni, záber z katalógu dodávateľa."
+        sizes="100vw"
+      />
+      <figcaption>Z katalógu dodávateľa. Nie je to vzorový dom v Nebojsi.</figcaption>
+    </figure>
+
+    <section class="section" id="rozkladanie" aria-labelledby="unfold-title">
+      <div class="wrap unfold">
+        <div class="unfold-media">
+          <p class="eyebrow">Ako sa dom rozkladá</p>
+          <h2 id="unfold-title">Päť krokov a dom stojí</h2>
+          <InlineVideo
+            id="unfold-3d"
+            class="clip-wide"
+            width={1280}
+            height={720}
+            label="Animácia rozkladania domu a pôdorysov. Video je bez zvuku."
+          />
+          <p class="caption">Animácia ukazuje princíp. Nie je to záznam z Nebojse.</p>
+          <p>
+            <button type="button" class="btn btn-solid" data-open-film>Pozrieť celé rozloženie</button>
+          </p>
+        </div>
+        <div>
+          <p>Video celého rozloženia je z výroby dodávateľa a spustí sa až po kliknutí.</p>
+          <ol class="steps unfold-steps">
+            {
+              steps.map((step, index) => (
+                <li>
+                  <span class="step-no" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.text}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="zariadeny" aria-labelledby="ready-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Hotový a zariadený</p>
+          <h2 id="ready-title">Takto vyzerá dom po rozložení</h2>
+          <p>
+            Zábery 20 ft modelu sú od dodávateľa: exteriér, obývačka, kuchyňa, kúpeľňa.
+            Nie sú to fotografie vzorového domu v Nebojsi.
+          </p>
+        </div>
+        <div class="furnished-grid">
+          <div>
+            <InlineVideo
+              id="staged"
+              wideId="staged-wide"
+              class="clip-staged"
+              width={720}
+              height={1280}
+              label="Zariadený 20 ft dom, exteriér a interiér. Video je bez zvuku."
+            />
+            <p class="caption">Zariadený model 20 ft. Video je bez zvuku.</p>
+          </div>
+          <div class="gallery">
+            {tour.map((item) => <Shot id={item.id} alt={item.alt} group="tour" />)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="sizes-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Veľkosti</p>
+          <h2 id="sizes-title">Od 18 m² po veľký dom</h2>
+          <p>
+            Cenovú ponuku vám pripravíme na mieru. Úzke a spojené verzie sú v prehľade typov.
+          </p>
+          <p><a class="btn btn-ghost" href={page('/typy-domov/')}>Pozrieť typy domov</a></p>
+        </div>
+        <div class="teasers">
+          {
+            featured.map((model) => {
+              const photo = isImageId(model.images.photo) ? model.images.photo : null;
+              return (
+                <a class="tease" href={page('/typy-domov/', `model-${model.id}`)}>
+                  {photo && <Picture id={photo} alt="" sizes="(min-width: 740px) 40vw, 100vw" />}
+                  {photo && isRender(photo) && <span class="badge">Vizualizácia</span>}
+                  <span class="tease-text">
+                    <span class="tease-name">{model.name}</span>
+                    <span class="tease-area">{formatArea(model.area_m2)}</span>
+                    <span>{model.layout_sk_draft}</span>
+                    {photo && <span class="sr-only">. {imageCaption(photo)}</span>}
+                  </span>
+                </a>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="preprava" aria-labelledby="ship-title">
+      <div class="wrap split reverse">
+        <div>
+          <InlineVideo
+            id="shipment"
+            class="clip-portrait"
+            width={720}
+            height={1280}
+            label="Nakladanie a preprava zloženého domu. Video je bez zvuku."
+          />
+        </div>
+        <div class="split-copy">
+          <p class="eyebrow">Preprava</p>
+          <h2 id="ship-title">Príde zložený, v kontajneri</h2>
+          <p>
+            {
+              ten && twenty && thirty && forty
+                ? `Do kontajnera 40′ HC sa podľa katalógu zmestí ${containerCount(ten)} 10 ft, ${containerCount(twenty)} 20 ft, ${containerCount(thirty)} 30 ft a ${containerCount(forty)} 40 ft.`
+                : 'Počet kusov v kontajneri je v katalógu pri každom modeli.'
+            }
+            {' '}
+            Konkrétnu dopravu na pozemok naceníme v ponuke.
+          </p>
+          <Picture
+            id="transport-truck"
+            alt="Nákladné auto vezie zložený dom, záber z katalógu dodávateľa."
+            sizes="(min-width: 900px) 40vw, 100vw"
+          />
+          <p class="caption">Preprava zloženého domu. Záber z katalógu dodávateľa.</p>
+        </div>
+      </div>
+    </section>
+
+    <Showhouse />
+
+    <section class="section faq" aria-labelledby="faq-title">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Otázky</p>
+          <h2 id="faq-title">Predtým, než zavoláte</h2>
+        </div>
+        {
+          faqs.map((item) => (
+            <details>
+              <summary>{item.q}</summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Base>

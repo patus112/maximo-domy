@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import { page } from '../lib/url';
+---
+
+<Base title="Stránka sa nenašla — Maximo" description="Táto adresa na webe Maximo neexistuje.">
+  <main id="main" class="missing">
+    <div class="wrap">
+      <p class="eyebrow">404</p>
+      <h1>Táto stránka neexistuje</h1>
+      <p>Vráťte sa na úvod alebo nám zavolajte.</p>
+      <p class="cta-row">
+        <a class="btn btn-solid" href={page('/')}>Domov</a>
+        <a class="btn btn-ghost" href={page('/kontakt/')}>Kontakt</a>
+      </p>
+    </div>
+  </main>
+</Base>

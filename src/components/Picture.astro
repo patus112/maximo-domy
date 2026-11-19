@@ -1,0 +1,33 @@
+---
+import { images, type ImageId } from '../lib/images';
+import { asset } from '../lib/url';
+
+interface Props {
+  id: ImageId;
+  alt: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low';
+  class?: string;
+}
+
+const { id, alt, sizes = '100vw', loading = 'lazy', fetchpriority, class: className } = Astro.props;
+const meta = images[id];
+const avif = meta.widths.map((width) => `${asset(`media/img/${id}-${width}.avif`)} ${width}w`).join(', ');
+const webp = meta.widths.map((width) => `${asset(`media/img/${id}-${width}.webp`)} ${width}w`).join(', ');
+const fallback = meta.widths[0];
+---
+
+<picture class={className}>
+  <source type="image/avif" srcset={avif} sizes={sizes} />
+  <source type="image/webp" srcset={webp} sizes={sizes} />
+  <img
+    src={asset(`media/img/${id}-${fallback}.webp`)}
+    alt={alt}
+    width={meta.width}
+    height={meta.height}
+    loading={loading}
+    decoding="async"
+    fetchpriority={fetchpriority}
+  />
+</picture>

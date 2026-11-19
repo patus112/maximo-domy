@@ -1,0 +1,43 @@
+---
+import { captions, poster } from '../lib/video';
+import { asset } from '../lib/url';
+---
+
+<dialog id="lightbox" aria-labelledby="lightbox-caption">
+  <div class="dialog-bar">
+    <button type="button" class="btn btn-ghost" data-lightbox-prev>Predchádzajúca</button>
+    <p id="lightbox-caption"></p>
+    <button type="button" class="btn btn-ghost" data-lightbox-next>Ďalšia</button>
+    <button type="button" class="btn btn-solid" data-lightbox-close>Zavrieť</button>
+  </div>
+  <picture>
+    <source id="lightbox-avif" type="image/avif" />
+    <img id="lightbox-img" alt="" width="1280" height="960" />
+  </picture>
+</dialog>
+
+<dialog id="film-dialog" aria-labelledby="film-title">
+  <div class="dialog-bar">
+    <p id="film-title">Celé rozloženie domu</p>
+    <button type="button" class="btn btn-solid" data-film-close>Zavrieť</button>
+  </div>
+  <video
+    id="film-video"
+    data-managed
+    data-role="modal"
+    poster={poster('full-expand')}
+    width="720"
+    height="1280"
+    controls
+    playsinline
+    preload="none"
+    aria-label="Celé rozloženie domu vo výrobe. Video je bez zvuku."
+  >
+    <track kind="captions" srclang="sk" label="Slovenčina" src={captions('full-expand')} />
+  </video>
+  <template id="film-sources">
+    <source src={asset('media/video/full-expand.mp4')} type="video/mp4" />
+    <source src={asset('media/video/full-expand.webm')} type="video/webm" />
+  </template>
+  <p class="dialog-note">Záber z výroby dodávateľa. Video je bez zvuku a prehrá sa až po kliknutí.</p>
+</dialog>

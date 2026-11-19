@@ -1,0 +1,78 @@
+---
+import Materials from '../../components/Materials.astro';
+import ModelSwitcher from '../../components/ModelSwitcher.astro';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../config/site';
+import { modelName, models } from '../../lib/catalog';
+import { containerCount, formatArea, formatBox, formatWeight } from '../../lib/format';
+import { page } from '../../lib/url';
+---
+
+<Base
+  title="Typy domov — Maximo"
+  description="Modulárne domy 10 až 40 ft: rozmery, plocha, hmotnosť, dispozícia a počet kusov v kontajneri. Výber rámu, panelov, fasády, podláh, okien, kuchyne a kúpeľne."
+>
+  <main id="main" class="page">
+    <div class="wrap">
+      <header class="page-hero">
+        <p class="eyebrow">Katalóg</p>
+        <h1>Typy domov</h1>
+        <p>
+          Osem veľkostí. Rozmery, plocha a hmotnosť sú údaje z katalógu dodávateľa.
+          Dispozícia sa dá pred objednávkou upraviť. Cenovú ponuku vám pripravíme na mieru.
+        </p>
+      </header>
+
+      <ModelSwitcher />
+
+      <section class="compare" aria-labelledby="compare-title">
+        <div class="section-head">
+          <h2 id="compare-title">Porovnanie</h2>
+          <p class="scroll-hint">Na úzkej obrazovke posuňte tabuľku do strany.</p>
+        </div>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Porovnanie modelov, posúvateľné do strany">
+          <table>
+            <caption>Údaje rozloženého domu podľa katalógu dodávateľa. Dĺžka × šírka × výška.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Model</th>
+                <th scope="col">Plocha</th>
+                <th scope="col">Rozložený</th>
+                <th scope="col">Zložený</th>
+                <th scope="col">Hmotnosť</th>
+                <th scope="col">V 40′ HC</th>
+                <th scope="col">Dispozícia</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                models.map((model) => (
+                  <tr>
+                    <th scope="row">{modelName(model)}</th>
+                    <td>{formatArea(model.area_m2)}</td>
+                    <td>{formatBox(model.expanded_mm)}</td>
+                    <td>{formatBox(model.folded_mm)}</td>
+                    <td>{formatWeight(model.weight_t)}</td>
+                    <td>{containerCount(model)}</td>
+                    <td>{model.layout_sk_draft}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <Materials />
+
+    <div class="wrap end-cta">
+      <h2>Vyberieme model spolu</h2>
+      <p>Cenovú ponuku vám pripravíme na mieru. Zavolajte a dohodnite obhliadku v Nebojsi.</p>
+      <p class="cta-row">
+        <a class="btn btn-solid" href={site.phone.href}>Zavolať {site.phone.display}</a>
+        <a class="btn btn-ghost" href={page('/kontakt/', 'obhliadka')}>Dohodnúť obhliadku</a>
+      </p>
+    </div>
+  </main>
+</Base>

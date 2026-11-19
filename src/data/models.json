@@ -1,0 +1,248 @@
+{
+ "_source": "FlexiMod House catalog p.7 (Expandable House Specifications); values in English/mm/t/m2. Prices not provided.",
+ "_notes": [
+  "Catalog says 20ft = 2 bed/1 bath; supplier website said 1 bedroom. Verify with supplier.",
+  "Internal 20ft: 5640 x 6060 x 2240 mm (catalog p.14); 20ft Narrow internal 5640 x 4640 x 2240; inner height 2.4 m per manual",
+  "Units can be joined end-to-end/side-by-side or stacked two storeys."
+ ],
+ "unfolding_steps_en": [
+  "Transport",
+  "Wings Open",
+  "Floor Down",
+  "Walls Out",
+  "Ready to Use"
+ ],
+ "unfolding_steps_sk_draft": [
+  "Preprava",
+  "Rozloženie krídel",
+  "Spustenie podlahy",
+  "Vysunutie stien",
+  "Pripravené na bývanie"
+ ],
+ "models": [
+  {
+   "id": "10ft",
+   "name": "10 ft",
+   "expanded_mm": {
+    "length": 2950,
+    "width": 6300,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 2950,
+    "width": 2200,
+    "height": 2480
+   },
+   "units_per_40HC": 4,
+   "units_per_40HC_text": "4 sets",
+   "weight_t": 2.3,
+   "area_m2": 18,
+   "layout_en": "open plan",
+   "layout_sk_draft": "otvorený priestor",
+   "bedrooms": 0,
+   "bathrooms": null,
+   "images": {
+    "photo": "model-10ft",
+    "plan": null,
+    "plan3d": null,
+    "video": null
+   }
+  },
+  {
+   "id": "20ft",
+   "name": "20 ft",
+   "expanded_mm": {
+    "length": 5900,
+    "width": 6220,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 5900,
+    "width": 2200,
+    "height": 2480
+   },
+   "units_per_40HC": 2,
+   "units_per_40HC_text": "2 sets",
+   "weight_t": 3.5,
+   "area_m2": 37,
+   "layout_en": "2 bed / 1 bath / kitchen",
+   "layout_sk_draft": "2 spálne, 1 kúpeľňa, kuchyňa",
+   "bedrooms": 2,
+   "bathrooms": 1,
+   "images": {
+    "photo": "model-20ft",
+    "plan": "plan-20ft",
+    "plan3d": "plan-20ft-3d",
+    "video": "model-f20"
+   }
+  },
+  {
+   "id": "30ft",
+   "name": "30 ft",
+   "expanded_mm": {
+    "length": 9000,
+    "width": 6220,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 9000,
+    "width": 2200,
+    "height": 2480
+   },
+   "units_per_40HC": 1,
+   "units_per_40HC_text": "1 set",
+   "weight_t": 5.8,
+   "area_m2": 56,
+   "layout_en": "3 bed / 1 bath / kitchen",
+   "layout_sk_draft": "3 spálne, 1 kúpeľňa, kuchyňa",
+   "bedrooms": 3,
+   "bathrooms": 1,
+   "images": {
+    "photo": "model-30ft",
+    "plan": "plan-30ft",
+    "plan3d": "plan-30ft-3d",
+    "video": "model-f30"
+   }
+  },
+  {
+   "id": "40ft",
+   "name": "40 ft",
+   "expanded_mm": {
+    "length": 11800,
+    "width": 6220,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 11800,
+    "width": 2200,
+    "height": 2480
+   },
+   "units_per_40HC": 1,
+   "units_per_40HC_text": "1 set",
+   "weight_t": 6.4,
+   "area_m2": 73,
+   "layout_en": "3 bed / 2 bath / kitchen",
+   "layout_sk_draft": "3 spálne, 2 kúpeľne, kuchyňa",
+   "bedrooms": 3,
+   "bathrooms": 2,
+   "images": {
+    "photo": "model-40ft",
+    "plan": "plan-40ft",
+    "plan3d": "plan-40ft-3d",
+    "video": "model-f40"
+   }
+  },
+  {
+   "id": "20ft-narrow",
+   "name": "20 ft Narrow",
+   "expanded_mm": {
+    "length": 5900,
+    "width": 4800,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 5900,
+    "width": 700,
+    "height": 2480
+   },
+   "units_per_40HC": 6,
+   "units_per_40HC_text": "6 sets",
+   "weight_t": 2.1,
+   "area_m2": 28,
+   "layout_en": "open plan",
+   "layout_sk_draft": "otvorený priestor",
+   "bedrooms": 0,
+   "bathrooms": null,
+   "images": {
+    "photo": null,
+    "plan": null,
+    "plan3d": null,
+    "video": null
+   }
+  },
+  {
+   "id": "40ft-narrow",
+   "name": "40 ft Narrow",
+   "expanded_mm": {
+    "length": 11800,
+    "width": 4800,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 11800,
+    "width": 700,
+    "height": 2480
+   },
+   "units_per_40HC": 3,
+   "units_per_40HC_text": "3 sets",
+   "weight_t": 4,
+   "area_m2": 56,
+   "layout_en": "open plan",
+   "layout_sk_draft": "otvorený priestor",
+   "bedrooms": 0,
+   "bathrooms": null,
+   "images": {
+    "photo": null,
+    "plan": null,
+    "plan3d": null,
+    "video": null
+   }
+  },
+  {
+   "id": "30ft-joined",
+   "name": "30 ft Joined",
+   "expanded_mm": {
+    "length": 9000,
+    "width": 12440,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 9000,
+    "width": 2200,
+    "height": 2480
+   },
+   "units_per_40HC": 2,
+   "units_per_40HC_text": "2 x 40' HC (x2 units)",
+   "weight_t": 10,
+   "area_m2": 112,
+   "layout_en": "open plan",
+   "layout_sk_draft": "otvorený priestor",
+   "bedrooms": 0,
+   "bathrooms": null,
+   "images": {
+    "photo": null,
+    "plan": null,
+    "plan3d": null,
+    "video": null
+   }
+  },
+  {
+   "id": "40ft-joined",
+   "name": "40 ft Joined",
+   "expanded_mm": {
+    "length": 11800,
+    "width": 12440,
+    "height": 2480
+   },
+   "folded_mm": {
+    "length": 11800,
+    "width": 2200,
+    "height": 2480
+   },
+   "units_per_40HC": 2,
+   "units_per_40HC_text": "2 x 40' HC (x2 units)",
+   "weight_t": 12,
+   "area_m2": 146,
+   "layout_en": "open plan",
+   "layout_sk_draft": "otvorený priestor",
+   "bedrooms": 0,
+   "bathrooms": null,
+   "images": {
+    "photo": null,
+    "plan": null,
+    "plan3d": null,
+    "video": null
+   }
+  }
+ ]
+}
