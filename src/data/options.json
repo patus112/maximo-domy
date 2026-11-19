@@ -1,0 +1,212 @@
+{
+ "_source": "FlexiMod House Selection and Configuration Manual (44 pp). English source values; sk_draft keys are draft translations. Prices are not included.",
+ "categories": [
+  {
+   "id": "frame_color",
+   "en": "Frame colour",
+   "sk_draft": "Farba rámu",
+   "values": [
+    "Black",
+    "Matte white",
+    "Light gray",
+    "Dark gray",
+    "Brown"
+   ],
+   "sk_values_draft": [
+    "Čierna",
+    "Matná biela",
+    "Svetlosivá",
+    "Tmavosivá",
+    "Hnedá"
+   ]
+  },
+  {
+   "id": "electrical",
+   "en": "Electrical standard",
+   "sk_draft": "Elektrická norma",
+   "values": [
+    "British",
+    "American",
+    "Australian",
+    "Italian",
+    "European"
+   ],
+   "sk_values_draft": [
+    "Britská",
+    "Americká",
+    "Austrálska",
+    "Talianska",
+    "Európska"
+   ],
+   "note": "Choose European for SK"
+  },
+  {
+   "id": "facade",
+   "en": "Exterior colour steel plate / metal carved panels (upgrade)",
+   "sk_draft": "Fasáda: farebný oceľový plech / vyrezávané kovové panely (upgrade)",
+   "images": [
+    "facade-07",
+    "facade-12",
+    "facade-13",
+    "facade-17",
+    "facade-20",
+    "facade-24",
+    "facade-27",
+    "facade-29"
+   ]
+  },
+  {
+   "id": "interior_wall",
+   "en": "Carbon crystal panel interior wall matching exterior steel panel",
+   "sk_draft": "Vnútorná stena: karbónový kryštálový panel v farbe fasády"
+  },
+  {
+   "id": "panel_core",
+   "en": "Sandwich panel core",
+   "sk_draft": "Jadro sendvičového panelu",
+   "values": [
+    "EPS",
+    "Polyurethane",
+    "Rock wool",
+    "Graphite core",
+    "PIR"
+   ],
+   "sk_values_draft": [
+    "EPS",
+    "Polyuretán",
+    "Minerálna vlna",
+    "Grafitové jadro",
+    "PIR"
+   ]
+  },
+  {
+   "id": "floor",
+   "en": "Floor",
+   "sk_draft": "Podlaha",
+   "values": [
+    "PVC",
+    "SPC (upgrade)",
+    "Fishbone SPC (upgrade)",
+    "Graphene floor heating (upgrade)"
+   ],
+   "sk_values_draft": [
+    "PVC",
+    "SPC (príplatok)",
+    "SPC rybia kosť (príplatok)",
+    "Grafénové podlahové vykurovanie (príplatok)"
+   ]
+  },
+  {
+   "id": "doors",
+   "en": "Entrance door and bedroom door",
+   "sk_draft": "Vchodové a izbové dvere"
+  },
+  {
+   "id": "windows",
+   "en": "Windows",
+   "sk_draft": "Okná",
+   "values": [
+    "Hanging window",
+    "Outward-opening window",
+    "Inward-opening window",
+    "Double-opening window (upgrade)",
+    "Sliding window (upgrade)",
+    "500x1200 strip window (upgrade)",
+    "Venetian blinds (upgrade)"
+   ],
+   "sk_values_draft": [
+    "Výklopné",
+    "Otváracie von",
+    "Otváracie dovnútra",
+    "Dvojkrídlové (príplatok)",
+    "Posuvné (príplatok)",
+    "Pásové 500×1200 (príplatok)",
+    "Žalúzie (príplatok)"
+   ],
+   "images": [
+    "window-04",
+    "window-05",
+    "window-07"
+   ]
+  },
+  {
+   "id": "bathroom_cabinet",
+   "en": "Bathroom cabinet (standard 60 cm; longer vanities 90-120 cm, 150 cm upgrade)",
+   "sk_draft": "Kúpeľňová skrinka (štandard 60 cm; dlhšie 90–120 cm, 150 cm za príplatok)",
+   "values": [
+    "X1212",
+    "X1117",
+    "X1270",
+    "X1271",
+    "X1272"
+   ],
+   "images": [
+    "bathroom-01",
+    "bathroom-13",
+    "bathroom-24"
+   ]
+  },
+  {
+   "id": "kitchen",
+   "en": "Kitchen cabinets (standard + upgrades)",
+   "sk_draft": "Kuchynská linka (štandard + upgrady)",
+   "images": [
+    "kitchen-05",
+    "kitchen-13",
+    "kitchen-18"
+   ]
+  },
+  {
+   "id": "terrace",
+   "en": "Terrace roof / terrace floor / thickened terrace (upgrade)",
+   "sk_draft": "Terasa: strecha, podlaha, zosilnená terasa (príplatok)"
+  },
+  {
+   "id": "glass_curtain_wall",
+   "en": "Glass curtain wall (upgrade)",
+   "sk_draft": "Sklenená stena (príplatok)"
+  },
+  {
+   "id": "roof",
+   "en": "Gable roof (upgrade) / sloping roof (upgrade)",
+   "sk_draft": "Strecha: sedlová / šikmá (príplatok)"
+  },
+  {
+   "id": "outdoor_kitchen",
+   "en": "Outdoor kitchen",
+   "sk_draft": "Vonkajšia kuchyňa",
+   "values": [
+    {
+     "name": "Outdoor Party Kitchen Plus",
+     "mm": "2850x1000x2350"
+    },
+    {
+     "name": "Outdoor Party Kitchen Pro",
+     "mm": "3850x1000x2350"
+    }
+   ]
+  },
+  {
+   "id": "pool",
+   "en": "Outdoor swimming pool (galvanized steel, acrylic, PVC liner; pump, filter, skimmer, LED lights)",
+   "sk_draft": "Vonkajší bazén",
+   "values": [
+    {
+     "id": "QG-01",
+     "m": "5.8x2.2x1.5",
+     "per_40HQ": 2
+    },
+    {
+     "id": "QG-02",
+     "m": "8.8x2.2x1.5",
+     "per_40HQ": 1
+    },
+    {
+     "id": "QG-03",
+     "m": "11.8x2.2x1.5",
+     "per_40HQ": 1
+    }
+   ]
+  }
+ ]
+}
