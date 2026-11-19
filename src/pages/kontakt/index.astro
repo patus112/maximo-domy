@@ -1,0 +1,34 @@
+---
+import Showhouse from '../../components/Showhouse.astro';
+import Base from '../../layouts/Base.astro';
+import { site } from '../../config/site';
+---
+
+<Base
+  title="Kontakt — Maximo"
+  description="Zavolajte na 0902 144 643 a dohodnite obhliadku vzorového domu v Nebojsi, Hlavná 89. MAXIMO TRADE s. r. o., Hrubá Borša."
+>
+  <main id="main" class="page">
+    <div class="wrap page-hero">
+      <p class="eyebrow">Kontakt</p>
+      <h1>Zavolajte a dohodnite obhliadku</h1>
+      <p>Telefón je zatiaľ najrýchlejšia cesta. Cenovú ponuku vám pripravíme na mieru.</p>
+      <a class="phone-xl" href={site.phone.href}>{site.phone.display}</a>
+    </div>
+    <Showhouse />
+    <div class="wrap imprint">
+      <h2>Spoločnosť</h2>
+      <address>
+        <strong>{site.legal.name}</strong><br />
+        {site.legal.street}<br />
+        {site.legal.zip} {site.legal.city}
+      </address>
+      <p>
+        IČO: {site.legal.ico}<br />
+        DIČ: {site.legal.dic}<br />
+        IČ DPH: {site.legal.vat}
+      </p>
+      <p>{site.legal.registry}</p>
+    </div>
+  </main>
+</Base>

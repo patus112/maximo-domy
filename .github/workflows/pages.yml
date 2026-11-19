@@ -1,0 +1,56 @@
+# Gated on purpose. This file does not enable GitHub Pages and does not
+# change repository visibility. The job runs only when the repository
+# variable MAXIMO_DEPLOY_APPROVED is exactly the string "true".
+# Leave it unset. Do not deploy from this workflow until a person approves it.
+#
+# GitHub Pages project site for this repo would use base /maximo-domy/.
+# A later custom domain needs SITE_BASE=/ and SITE_URL set to that domain.
+
+name: pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: vars.MAXIMO_DEPLOY_APPROVED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+        env:
+          ASTRO_TELEMETRY_DISABLED: 1
+          SITE_BASE: /maximo-domy/
+          SITE_URL: https://patus112.github.io
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    if: vars.MAXIMO_DEPLOY_APPROVED == 'true'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

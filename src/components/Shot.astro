@@ -1,0 +1,31 @@
+---
+import Picture from './Picture.astro';
+import { images, largest, type ImageId } from '../lib/images';
+
+interface Props {
+  id: ImageId;
+  alt: string;
+  group: string;
+  sizes?: string;
+  class?: string;
+}
+
+const { id, alt, group, sizes = '(min-width: 900px) 30vw, 46vw', class: className } = Astro.props;
+const full = largest(id);
+const meta = images[id];
+---
+
+<button
+  type="button"
+  class:list={['shot', className]}
+  data-lightbox
+  data-group={group}
+  data-src={full.webp}
+  data-avif={full.avif}
+  data-alt={alt}
+  data-w={meta.width}
+  data-h={meta.height}
+  aria-label={`Zväčšiť: ${alt}`}
+>
+  <Picture id={id} alt="" sizes={sizes} />
+</button>

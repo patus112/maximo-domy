@@ -1,0 +1,50 @@
+---
+import { captions, poster, responsiveSources, sourcesFor } from '../lib/video';
+
+interface Props {
+  id: string;
+  label: string;
+  wideId?: string;
+  width: number;
+  height: number;
+  class?: string;
+}
+
+const { id, label, wideId, width, height, class: className } = Astro.props;
+const sources = wideId ? responsiveSources(id, wideId) : sourcesFor(id);
+---
+
+<div class:list={['video-frame', className]}>
+  {
+    wideId ? (
+      <picture class="video-still">
+        <source media="(orientation: landscape) and (min-width: 768px)" srcset={poster(wideId)} type="image/webp" />
+        <img src={poster(id)} alt="" width={width} height={height} loading="lazy" decoding="async" />
+      </picture>
+    ) : (
+      <img class="video-still" src={poster(id)} alt="" width={width} height={height} loading="lazy" decoding="async" />
+    )
+  }
+  <video
+    data-managed
+    data-role="inline"
+    poster={poster(id)}
+    data-poster-wide={wideId ? poster(wideId) : undefined}
+    width={width}
+    height={height}
+    muted
+    playsinline
+    preload="none"
+    loop
+    controls
+    aria-label={label}
+  >
+    {
+      sources.map((source) => (
+        <source src={source.src} type={source.type} media={source.media} />
+      ))
+    }
+    <track kind="captions" srclang="sk" label="Slovenčina" src={captions(id)} />
+  </video>
+  <button type="button" class="video-play" hidden>Prehrať video</button>
+</div>

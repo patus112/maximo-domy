@@ -1,0 +1,32 @@
+---
+import { site } from '../config/site';
+
+interface Props {
+  heading?: string;
+}
+const { heading = 'Vzorový dom si môžete pozrieť naživo' } = Astro.props;
+const address = `${site.showhouse.street}, ${site.showhouse.zip} ${site.showhouse.city}`;
+---
+
+<section class="showhouse" id="obhliadka" aria-labelledby="showhouse-title">
+  <div class="wrap">
+    <p class="eyebrow">Naživo</p>
+    <h2 id="showhouse-title">{heading}</h2>
+    <address>
+      <strong>{site.showhouse.street}</strong>
+      {site.showhouse.zip} {site.showhouse.city}
+      <span class="sr-only">, okres {site.showhouse.area}</span>
+      <span aria-hidden="true"> · {site.showhouse.area}</span>
+    </address>
+    <p>{site.showhouse.note}</p>
+    <a class="btn btn-dark" href={site.phone.href}>Zavolať {site.phone.display}</a>
+    <p class="map-links">
+      <a href={site.showhouse.googleMaps} target="_blank" rel="noopener noreferrer">
+        Google Maps<span class="sr-only">, {address}, otvorí sa na novej karte</span>
+      </a>
+      <a href={site.showhouse.mapyCz} target="_blank" rel="noopener noreferrer">
+        Mapy.cz<span class="sr-only">, {address}, otvorí sa na novej karte</span>
+      </a>
+    </p>
+  </div>
+</section>

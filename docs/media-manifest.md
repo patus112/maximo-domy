@@ -198,3 +198,11 @@ Všetky videá: bez zvuku, H.264 MP4 (+faststart) a VP9 WebM, keyframe každú 1
 
 - `models.json` – tabuľka špecifikácií z katalógu s. 7 (EN hodnoty, `layout_sk_draft`)
 - `options.json` – možnosti z manuálu (EN zdroj, `sk_draft` kľúče)
+
+## Poznámky k obsahu webu
+
+- **20 ft a počet spální.** Katalóg (`models.json`) uvádza 2 spálne / 1 kúpeľňu. Web dodávateľa uvádzal aj verziu s 1 spálňou. Stránka zobrazuje `layout_sk_draft`. Text sa mení v tom poli, čísla rozmerov ostaňte.
+- **Vizualizácie, nie fotografie domu v Nebojsi:** `hero`, `model-30ft`, `model-40ft`, `facade-render-15`, `facade-render-16`. Na webe majú text „Vizualizácia z katalógu“.
+- **`model-10ft`.** Manifest hore hovorí „render“, záber však vyzerá ako fotografia z haly. Na webe je preto „záber z katalógu dodávateľa“, nie „náš dom“ a nie „vizualizácia“.
+- **`hero-expand`.** Rozkladanie vo výrobe, na zábere je aj mostový žeriav. Nadpis „Rozloženie bez ťažkej techniky“ je predajný; text pod ním nehovorí, že tento záber je bez techniky. Osadenie so žeriavom je na stránke typov.
+- E-mail, logo, ceny, fotografie vzorového domu v Nebojsi a licencia FlexiMod zatiaľ nie sú doplnené. E-mail je v `src/config/site.ts` zámerne `null`.

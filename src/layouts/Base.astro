@@ -1,0 +1,136 @@
+---
+import '../styles/global.css';
+import Dialogs from '../components/Dialogs.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { site } from '../config/site';
+import { asset } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+  lcpPoster?: { tall: string; wide: string };
+}
+
+const { title, description, lcpPoster } = Astro.props;
+const origin = Astro.site ?? new URL('https://patus112.github.io');
+const canonical = new URL(Astro.url.pathname, origin);
+const image = new URL(asset('og.jpg'), origin).href;
+const home = new URL(asset('/'), origin).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: site.legal.name,
+  url: home,
+  telephone: site.phone.e164,
+  image,
+  description: site.seo.businessDescription,
+  vatID: site.legal.vat,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.showhouse.street,
+    postalCode: site.showhouse.zip,
+    addressLocality: site.showhouse.city,
+    addressRegion: site.showhouse.area,
+    addressCountry: 'SK',
+  },
+  areaServed: { '@type': 'Country', name: 'Slovensko' },
+  identifier: [
+    { '@type': 'PropertyValue', propertyID: 'IČO', value: '48320315' },
+    { '@type': 'PropertyValue', propertyID: 'DIČ', value: site.legal.dic },
+    { '@type': 'PropertyValue', propertyID: 'IČ DPH', value: site.legal.vat },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="sk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <meta name="theme-color" content="#141210" />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="sk_SK" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vizualizácia modulárneho domu Maximo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href={asset('favicon.svg')} type="image/svg+xml" />
+    {
+      lcpPoster && (
+        <>
+          <link
+            rel="preload"
+            as="image"
+            href={lcpPoster.tall}
+            media="(max-width: 767.98px), (orientation: portrait)"
+            fetchpriority="high"
+          />
+          <link
+            rel="preload"
+            as="image"
+            href={lcpPoster.wide}
+            media="(orientation: landscape) and (min-width: 768px)"
+            fetchpriority="high"
+          />
+        </>
+      )
+    }
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <Header />
+    <slot />
+    <Footer />
+    <Dialogs />
+    <script is:inline>
+      (function () {
+        const wide = window.matchMedia('(orientation: landscape) and (min-width: 768px)').matches;
+        if (wide) {
+          document.querySelectorAll('video[data-poster-wide]').forEach((video) => {
+            const nextPoster = video.getAttribute('data-poster-wide');
+            if (!nextPoster) return;
+            video.poster = nextPoster;
+            const still = video.parentElement?.querySelector('.video-still img');
+            if (still) still.src = nextPoster;
+          });
+        }
+        if (typeof window.__maximoHoldMedia !== 'boolean') {
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          window.__maximoHoldMedia =
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!(connection && connection.saveData);
+        }
+        if (!window.__maximoHoldMedia) return;
+        document.querySelectorAll('video[data-managed]').forEach((video) => {
+          if (video.getAttribute('data-held') === '1') return;
+          video.removeAttribute('autoplay');
+          video.preload = 'none';
+          video.pause();
+          const tpl = document.createElement('template');
+          tpl.className = 'held-sources';
+          let node = video.firstChild;
+          while (node) {
+            const next = node.nextSibling;
+            if (node.nodeName === 'SOURCE') tpl.content.appendChild(node);
+            node = next;
+          }
+          video.after(tpl);
+          video.setAttribute('data-held', '1');
+        });
+      })();
+    </script>
+    <script>
+      import '../scripts/media.ts';
+    </script>
+  </body>
+</html>

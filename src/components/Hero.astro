@@ -1,0 +1,96 @@
+---
+import { site } from '../config/site';
+import { captions, poster, responsiveSources } from '../lib/video';
+import { page } from '../lib/url';
+
+const sources = responsiveSources('hero-expand', 'hero-expand-wide');
+const tallPoster = poster('hero-expand');
+const widePoster = poster('hero-expand-wide');
+---
+
+<section class="hero" aria-label="Úvod">
+  <div class="hero-media video-frame">
+    <picture class="video-still">
+      <source media="(orientation: landscape) and (min-width: 768px)" srcset={widePoster} type="image/webp" />
+      <img
+        src={tallPoster}
+        alt=""
+        width="720"
+        height="1280"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+    <video
+      id="hero-video"
+      data-managed
+      data-role="hero"
+      poster={tallPoster}
+      data-poster-wide={widePoster}
+      width="720"
+      height="1280"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      aria-label="Rozkladanie modulárneho domu vo výrobe. Video je bez zvuku."
+    >
+      {
+        sources.map((source) => (
+          <source src={source.src} type={source.type} media={source.media} />
+        ))
+      }
+      <track kind="captions" srclang="sk" label="Slovenčina" src={captions('hero-expand')} />
+    </video>
+    <button type="button" class="video-play" hidden>Prehrať video</button>
+    <script is:inline>
+      (function () {
+        const video = document.getElementById('hero-video');
+        if (!video) return;
+        const wide = window.matchMedia('(orientation: landscape) and (min-width: 768px)').matches;
+        const widePoster = video.getAttribute('data-poster-wide');
+        if (wide && widePoster) {
+          video.poster = widePoster;
+          const still = video.parentElement && video.parentElement.querySelector('.video-still img');
+          if (still) still.src = widePoster;
+        }
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const hold = window.matchMedia('(prefers-reduced-motion: reduce)').matches || !!(connection && connection.saveData);
+        window.__maximoHoldMedia = hold;
+        if (!hold) return;
+        video.removeAttribute('autoplay');
+        video.preload = 'none';
+        video.pause();
+        const tpl = document.createElement('template');
+        tpl.className = 'held-sources';
+        let node = video.firstChild;
+        while (node) {
+          const next = node.nextSibling;
+          if (node.nodeName === 'SOURCE') tpl.content.appendChild(node);
+          node = next;
+        }
+        video.after(tpl);
+        video.setAttribute('data-held', '1');
+      })();
+    </script>
+  </div>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="hero-copy">
+    <p class="eyebrow rise">Skladacie modulárne domy</p>
+    <h1 class="rise">Dom, ktorý sa rozloží za pár hodín</h1>
+    <p class="lead rise">
+      Zložený sa zmestí do kontajnera. Na pozemku sa otvorí do domu s oceľovým rámom a izolovanými stenami.
+      Väčšie modely majú v katalógu kuchyňu aj kúpeľňu.
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-solid" href={site.phone.href}>Zavolať {site.phone.display}</a>
+      <a class="btn btn-ghost" href={page('/', 'obhliadka')}>Dohodnúť obhliadku</a>
+    </div>
+    <p class="hero-note">
+      <a href={page('/', 'obhliadka')}>Vzorový dom v Nebojsi</a>
+      <span aria-hidden="true"> · </span>
+      obhliadka po telefonickej dohode
+    </p>
+  </div>
+</section>
