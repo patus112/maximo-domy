@@ -6,12 +6,6 @@ const port = 4331;
 const root = `http://127.0.0.1:${port}/maximo-domy/`;
 const outDir = process.env.SHOT_DIR || '/opt/cursor/artifacts';
 
-const pages = [
-  { slug: 'domov', path: '' },
-  { slug: 'typy-domov', path: 'typy-domov/' },
-  { slug: 'kontakt', path: 'kontakt/' },
-];
-
 function waitForServer(url) {
   const started = Date.now();
   return new Promise((resolve, reject) => {
@@ -71,21 +65,21 @@ try {
     document.addEventListener('DOMContentLoaded', () => document.head.append(style));
   })();`);
 
-  for (const entry of pages) {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(root + entry.path, { waitUntil: 'domcontentloaded' });
-    console.log(entry.slug, 'mobile', await settle(page));
-    await page.screenshot({
-      path: `${outDir}/${entry.slug}-390x844.png`,
-      fullPage: true,
-    });
+  const shots = [
+    { slug: 'domov', path: '', width: 390, height: 844, fullPage: false, name: 'domov-390x844-fold' },
+    { slug: 'domov', path: '', width: 390, height: 844, fullPage: true, name: 'domov-390x844' },
+    { slug: 'domov', path: '', width: 1440, height: 900, fullPage: false, name: 'domov-1440x900' },
+    { slug: 'typy-domov', path: 'typy-domov/', width: 390, height: 844, fullPage: false, name: 'typy-domov-390x844-fold' },
+    { slug: 'kontakt', path: 'kontakt/', width: 390, height: 844, fullPage: false, name: 'kontakt-390x844' },
+  ];
 
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto(root + entry.path, { waitUntil: 'domcontentloaded' });
-    console.log(entry.slug, 'desktop', await settle(page));
+  for (const shot of shots) {
+    await page.setViewportSize({ width: shot.width, height: shot.height });
+    await page.goto(root + shot.path, { waitUntil: 'domcontentloaded' });
+    console.log(shot.name, await settle(page));
     await page.screenshot({
-      path: `${outDir}/${entry.slug}-1440x900.png`,
-      fullPage: false,
+      path: `${outDir}/${shot.name}.png`,
+      fullPage: shot.fullPage,
     });
   }
 

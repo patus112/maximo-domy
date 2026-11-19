@@ -137,6 +137,33 @@ test('reduced motion does not autoplay the hero', async ({ browser }) => {
   await context.close();
 });
 
+test('mobile hero keeps the headline and both calls to action on screen', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(root);
+  await page.evaluate(() =>
+    Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined))),
+  );
+  const box = async (selector: string) => {
+    const value = await page.locator(selector).boundingBox();
+    if (!value) throw new Error(`missing box for ${selector}`);
+    return value;
+  };
+  const header = await box('.site-header');
+  const title = await box('h1');
+  const call = await box('.hero-copy .btn-solid');
+  const visit = await box('.hero-copy .btn-ghost');
+  const phone = await box('.header-phone');
+  expect(title.y).toBeGreaterThanOrEqual(header.y + header.height - 1);
+  expect(call.y + call.height).toBeLessThanOrEqual(844);
+  expect(visit.y + visit.height).toBeLessThanOrEqual(844);
+  const separated =
+    phone.y + phone.height <= title.y ||
+    title.y + title.height <= phone.y ||
+    phone.x + phone.width <= title.x ||
+    title.x + title.width <= phone.x;
+  expect(separated).toBe(true);
+});
+
 test('at most one video is playing', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(root);
