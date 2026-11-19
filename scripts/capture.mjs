@@ -61,16 +61,17 @@ try {
   const page = await browser.newPage();
   await page.addInitScript(`(() => {
     const style = document.createElement('style');
-    style.textContent = '*,*::before,*::after{animation:none!important;transition:none!important}';
+    style.textContent = '*,*::before,*::after{animation:none!important;transition:none!important}.line>span{transform:none!important}';
     document.addEventListener('DOMContentLoaded', () => document.head.append(style));
   })();`);
 
   const shots = [
-    { slug: 'domov', path: '', width: 390, height: 844, fullPage: false, name: 'domov-390x844-fold' },
-    { slug: 'domov', path: '', width: 390, height: 844, fullPage: true, name: 'domov-390x844' },
-    { slug: 'domov', path: '', width: 1440, height: 900, fullPage: false, name: 'domov-1440x900' },
-    { slug: 'typy-domov', path: 'typy-domov/', width: 390, height: 844, fullPage: false, name: 'typy-domov-390x844-fold' },
-    { slug: 'kontakt', path: 'kontakt/', width: 390, height: 844, fullPage: false, name: 'kontakt-390x844' },
+    { path: '', width: 390, height: 844, fullPage: false, name: 'domov-390x844-fold' },
+    { path: '', width: 390, height: 844, fullPage: true, name: 'domov-390x844' },
+    { path: '', width: 1440, height: 900, fullPage: false, name: 'domov-1440x900' },
+    { path: 'typy-domov/', width: 390, height: 844, fullPage: false, name: 'typy-domov-390x844' },
+    { path: 'typy-domov/', width: 1440, height: 900, fullPage: false, name: 'typy-domov-1440x900' },
+    { path: 'kontakt/', width: 390, height: 844, fullPage: false, name: 'kontakt-390x844' },
   ];
 
   for (const shot of shots) {
@@ -82,6 +83,14 @@ try {
       fullPage: shot.fullPage,
     });
   }
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto(root, { waitUntil: 'domcontentloaded' });
+  await settle(page);
+  await page.locator('#ponuka').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `${outDir}/domov-1440x900-bento.png`, fullPage: false });
+  await page.locator('#rozkladanie').scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `${outDir}/domov-1440x900-rozkladanie.png`, fullPage: false });
 
   await browser.close();
 } finally {

@@ -64,16 +64,26 @@ const renders: { id: ImageId; alt: string }[] = [
         Oceľový pozinkovaný rám. Farebné kruhy sú len orientačné, nie sú to vzorky povrchu.
         Pre Slovensko rátame s európskou elektrickou normou.
       </p>
-      <ul class="swatches">
+      <div class="picker frame-picker">
         {
           frameNames.map((name, index) => (
-            <li class="swatch">
-              <span class="chip" style={`background:${frameSwatches[index]?.hex ?? '#888'}`} aria-hidden="true" />
-              <span>{name}</span>
-            </li>
+            <input type="radio" name="ram" id={`ram-${index}`} checked={index === 0} />
           ))
         }
-      </ul>
+        <div class="swatch-row">
+          {
+            frameNames.map((name, index) => (
+              <label class="swatch" for={`ram-${index}`}>
+                <span class="chip" style={`background:${frameSwatches[index]?.hex ?? '#888'}`} aria-hidden="true" />
+                <span>{name}</span>
+              </label>
+            ))
+          }
+        </div>
+        <div class="names">
+          {frameNames.map((name) => <p class="stat">{name}</p>)}
+        </div>
+      </div>
     </article>
 
     <article class="material">
@@ -96,17 +106,39 @@ const renders: { id: ImageId; alt: string }[] = [
 
     <article class="material">
       <h3>Fasáda</h3>
-      <p class="lede">{optionCategory('facade')?.sk_draft}</p>
-      <div class="media-grid">
-        {facades.map((item) => <Shot id={item.id} alt={item.alt} group="facade" sizes="(min-width: 800px) 22vw, 46vw" />)}
+      <p class="lede">{optionCategory('facade')?.sk_draft} Vyberte vzorku, náhľad sa vymení.</p>
+      <div class="picker">
+        {facades.map((item, index) => (
+          <input type="radio" name="fasada" id={`fasada-${index}`} checked={index === 0} />
+        ))}
+        <div class="swatch-row">
+          {facades.map((item, index) => (
+            <label for={`fasada-${index}`}>{item.alt}</label>
+          ))}
+        </div>
+        <div class="preview-frame">
+          {facades.map((item) => (
+            <Shot id={item.id} alt={item.alt} group="facade" sizes="(min-width: 800px) 50vw, 100vw" />
+          ))}
+        </div>
       </div>
     </article>
 
     <article class="material">
       <h3>Podlahy</h3>
-      <ul class="option-list">
-        {floors.map((item) => <li>{item}</li>)}
-      </ul>
+      <div class="picker floor-picker">
+        {floors.map((item, index) => (
+          <input type="radio" name="podlaha" id={`podlaha-${index}`} checked={index === 0} />
+        ))}
+        <div class="swatch-row">
+          {floors.map((item, index) => (
+            <label for={`podlaha-${index}`}>{item}</label>
+          ))}
+        </div>
+        <div class="names">
+          {floors.map((item) => <p>{item}</p>)}
+        </div>
+      </div>
       <figure class="pair">
         <Picture id="structure-03" alt="Podlahová konštrukcia z katalógu dodávateľa." sizes="(min-width: 800px) 40vw, 100vw" />
       </figure>

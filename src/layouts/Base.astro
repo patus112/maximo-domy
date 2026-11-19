@@ -4,7 +4,7 @@ import Dialogs from '../components/Dialogs.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { site } from '../config/site';
-import { asset } from '../lib/url';
+import { asset, page } from '../lib/url';
 
 interface Props {
   title: string;
@@ -13,6 +13,9 @@ interface Props {
 }
 
 const { title, description, lcpPoster } = Astro.props;
+const path = Astro.url.pathname;
+const onHome = path.endsWith('/maximo-domy/') || path === '/';
+const visitHref = onHome || path.includes('/kontakt/') ? '#obhliadka' : page('/kontakt/', 'obhliadka');
 const origin = Astro.site ?? new URL('https://patus112.github.io');
 const canonical = new URL(Astro.url.pathname, origin);
 const image = new URL(asset('og.jpg'), origin).href;
@@ -92,6 +95,10 @@ const jsonLd = {
     <Header />
     <slot />
     <Footer />
+    <div class="dock">
+      <a class="btn btn-solid" href={site.phone.href}>Zavolať</a>
+      <a class="btn btn-ghost" href={visitHref}>Obhliadka</a>
+    </div>
     <Dialogs />
     <script is:inline>
       (function () {

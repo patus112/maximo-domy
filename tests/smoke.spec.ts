@@ -32,12 +32,17 @@ for (const viewport of [
       test(`${entry.name} renders and passes axe`, async ({ page }) => {
         await page.goto(entry.path);
         await page.evaluate(() =>
-          Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined))),
+          Promise.all(
+            document
+              .getAnimations()
+              .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
+              .map((animation) => animation.finished.catch(() => undefined)),
+          ),
         );
         await expect(page.locator('html')).toHaveAttribute('lang', 'sk');
         await expect(page.locator('h1')).toHaveCount(1);
         await expect(page.locator('iframe')).toHaveCount(0);
-        await expect(page.locator('a[href="tel:+421902144643"]').first()).toBeVisible();
+        await expect(page.locator('a[href="tel:+421902144643"]:visible').first()).toBeVisible();
         await expectClean(page, `${viewport.name} ${entry.name}`);
       });
     }
@@ -77,7 +82,7 @@ for (const viewport of [
 test('types list catalog models and contact imprint', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`${root}typy-domov/`);
-  await expect(page.locator('article.model-card')).toHaveCount(8);
+  await expect(page.locator('table tbody tr')).toHaveCount(8);
   await expect(page.locator('#model-20ft')).toContainText('2 spálne');
   await expect(page.locator('#model-20ft')).toContainText('37');
   await expect(page.getByText('Vizualizácia z katalógu').first()).toBeVisible();
@@ -141,7 +146,12 @@ test('mobile hero keeps the headline and both calls to action on screen', async 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(root);
   await page.evaluate(() =>
-    Promise.all(document.getAnimations().map((animation) => animation.finished.catch(() => undefined))),
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
+        .map((animation) => animation.finished.catch(() => undefined)),
+    ),
   );
   const box = async (selector: string) => {
     const value = await page.locator(selector).boundingBox();
@@ -152,16 +162,11 @@ test('mobile hero keeps the headline and both calls to action on screen', async 
   const title = await box('h1');
   const call = await box('.hero-copy .btn-solid');
   const visit = await box('.hero-copy .btn-ghost');
-  const phone = await box('.header-phone');
+  const dock = await box('.dock');
   expect(title.y).toBeGreaterThanOrEqual(header.y + header.height - 1);
-  expect(call.y + call.height).toBeLessThanOrEqual(844);
-  expect(visit.y + visit.height).toBeLessThanOrEqual(844);
-  const separated =
-    phone.y + phone.height <= title.y ||
-    title.y + title.height <= phone.y ||
-    phone.x + phone.width <= title.x ||
-    title.x + title.width <= phone.x;
-  expect(separated).toBe(true);
+  expect(call.y + call.height).toBeLessThanOrEqual(dock.y + 1);
+  expect(visit.y + visit.height).toBeLessThanOrEqual(dock.y + 1);
+  expect(dock.y + dock.height).toBeLessThanOrEqual(844.5);
 });
 
 test('at most one video is playing', async ({ page }) => {

@@ -1,0 +1,116 @@
+---
+import InlineVideo from './InlineVideo.astro';
+import Shot from './Shot.astro';
+import { modelName, models, type Model } from '../lib/catalog';
+import { containerCount, formatBox, formatWeight } from '../lib/format';
+import { imageCaption, isImageId, type ImageId } from '../lib/images';
+
+const order = ['10ft', '20ft', '30ft', '40ft'];
+const featured = order
+  .map((id) => models.find((model) => model.id === id))
+  .filter((model): model is Model => model !== undefined);
+
+const videoLabel: Record<string, string> = {
+  'model-f20': 'Obhliadka modelu 20 ft. Video je bez zvuku.',
+  'model-f30': 'Obhliadka modelu 30 ft. Video je bez zvuku.',
+  'model-f40': 'Obhliadka modelu 40 ft. Video je bez zvuku.',
+};
+
+function plansFor(model: Model): { id: ImageId; alt: string; kind: string }[] {
+  const plans: { id: ImageId; alt: string; kind: string }[] = [];
+  if (isImageId(model.images.plan)) {
+    plans.push({ id: model.images.plan, alt: `Pôdorys modelu ${modelName(model)}`, kind: '2D' });
+  }
+  if (isImageId(model.images.plan3d)) {
+    plans.push({ id: model.images.plan3d, alt: `Priestorový pôdorys modelu ${modelName(model)}`, kind: '3D' });
+  }
+  return plans;
+}
+---
+
+<div class="switcher">
+  {
+    featured.map((model, index) => (
+      <input type="radio" name="velkost" id={`size-${model.id}`} checked={index === 0} />
+    ))
+  }
+  <div class="switcher-tabs" aria-label="Veľkosť domu">
+    {featured.map((model) => <label for={`size-${model.id}`}>{modelName(model)}</label>)}
+  </div>
+  <div class="switcher-panels" tabindex="0" aria-label="Karty modelov, na telefóne sa posúvajú do strany">
+    {
+      featured.map((model) => {
+        const photo = isImageId(model.images.photo) ? model.images.photo : null;
+        const plans = plansFor(model);
+        return (
+          <article class="panel" id={`model-${model.id}`}>
+            <div>
+              {photo && (
+                <Shot
+                  id={photo}
+                  alt={`${modelName(model)}. ${imageCaption(photo)}`}
+                  group={`photo-${model.id}`}
+                  sizes="(min-width: 800px) 40vw, 86vw"
+                />
+              )}
+              <p class="caption">{photo ? imageCaption(photo) : 'Bez fotografie v katalógu.'}</p>
+              {model.images.video && (
+                <InlineVideo
+                  id={model.images.video}
+                  class="clip-model"
+                  width={720}
+                  height={1280}
+                  label={videoLabel[model.images.video] ?? `Video modelu ${modelName(model)}`}
+                />
+              )}
+            </div>
+            <div>
+              <h2>{modelName(model)}</h2>
+              <p class="area stat">{model.area_m2}<small> m²</small></p>
+              <p>{model.layout_sk_draft}</p>
+              <dl class="specs">
+                <div>
+                  <dt>Rozmery rozloženého domu</dt>
+                  <dd>{formatBox(model.expanded_mm)}</dd>
+                </div>
+                <div>
+                  <dt>Zložený</dt>
+                  <dd>{formatBox(model.folded_mm)}</dd>
+                </div>
+                <div>
+                  <dt>Hmotnosť</dt>
+                  <dd>{formatWeight(model.weight_t)}</dd>
+                </div>
+                <div>
+                  <dt>Do kontajnera 40′ HC</dt>
+                  <dd>{containerCount(model)}</dd>
+                </div>
+              </dl>
+              {plans.length > 0 && (
+                <div class="plan-box">
+                  {plans.map((plan, index) => (
+                    <input
+                      type="radio"
+                      name={`plan-${model.id}`}
+                      id={`plan-${model.id}-${plan.kind}`}
+                      checked={index === 0}
+                    />
+                  ))}
+                  <div class="plan-toggle">
+                    {plans.map((plan) => (
+                      <label for={`plan-${model.id}-${plan.kind}`}>{plan.kind}</label>
+                    ))}
+                  </div>
+                  {plans.map((plan) => (
+                    <Shot id={plan.id} alt={plan.alt} group={`plan-${model.id}`} sizes="(min-width: 800px) 28vw, 80vw" />
+                  ))}
+                </div>
+              )}
+            </div>
+          </article>
+        );
+      })
+    }
+  </div>
+</div>
+<p>Úzke a spojené verzie sú v porovnaní nižšie. Nemajú v tejto sade samostatnú fotografiu.</p>

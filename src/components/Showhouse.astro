@@ -9,6 +9,7 @@ const address = `${site.showhouse.street}, ${site.showhouse.zip} ${site.showhous
 ---
 
 <section class="showhouse" id="obhliadka" aria-labelledby="showhouse-title">
+  <div class="showhouse-card">
   <div class="wrap">
     <p class="eyebrow">Naživo</p>
     <h2 id="showhouse-title">{heading}</h2>
@@ -19,7 +20,7 @@ const address = `${site.showhouse.street}, ${site.showhouse.zip} ${site.showhous
       <span aria-hidden="true"> · {site.showhouse.area}</span>
     </address>
     <p>{site.showhouse.note}</p>
-    <a class="btn btn-dark" href={site.phone.href}>Zavolať {site.phone.display}</a>
+    <a class="btn btn-solid" href={site.phone.href}>Zavolať {site.phone.display}</a>
     <p class="map-links">
       <a href={site.showhouse.googleMaps} target="_blank" rel="noopener noreferrer">
         Google Maps<span class="sr-only">, {address}, otvorí sa na novej karte</span>
@@ -28,5 +29,6 @@ const address = `${site.showhouse.street}, ${site.showhouse.zip} ${site.showhous
         Mapy.cz<span class="sr-only">, {address}, otvorí sa na novej karte</span>
       </a>
     </p>
+  </div>
   </div>
 </section>

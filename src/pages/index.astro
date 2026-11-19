@@ -43,23 +43,61 @@ const steps = stepTitles.map((title, index) => ({ title, text: stepDetails[index
   <main id="main">
     <Hero />
 
-    <section class="section" aria-labelledby="points-title">
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        {
+          [...sellingPoints, ...sellingPoints].map((point) => (
+            <span>{point.title}</span>
+          ))
+        }
+      </div>
+    </div>
+
+    <section class="section" id="ponuka" aria-labelledby="points-title">
       <div class="wrap">
-        <div class="section-head">
+        <div class="section-head rise">
           <p class="eyebrow">Prečo tento dom</p>
           <h2 id="points-title">Bývanie, ktoré príde zložené</h2>
         </div>
-        <ol class="point-grid">
-          {
-            sellingPoints.map((point, index) => (
-              <li>
-                <span class="idx" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                <h3>{point.title}</h3>
-                <p>{point.text}</p>
-              </li>
-            ))
-          }
-        </ol>
+        <div class="bento">
+          <article class="bento-video">
+            <InlineVideo
+              id="staged"
+              wideId="staged-wide"
+              class="clip-wide"
+              width={1280}
+              height={720}
+              label="Zariadený 20 ft dom. Video je bez zvuku."
+            />
+          </article>
+          <article>
+            <p class="stat">18–146</p>
+            <p>m² v katalógu, od 10 ft po spojený 40 ft</p>
+          </article>
+          <article class="bento-accent">
+            <p class="stat">25–40</p>
+            <p>dní výroba</p>
+          </article>
+          <article class="parallax">
+            <Picture id="lineup" alt="Dom s tmavým rámom a terasou, záber z katalógu dodávateľa." sizes="(min-width: 800px) 30vw, 100vw" />
+          </article>
+          <article>
+            <p class="stat">4</p>
+            <p>domy 10 ft sa zmestia do jedného kontajnera 40′ HC</p>
+          </article>
+          <article class="bento-copy">
+            <ul class="point-grid">
+              {
+                sellingPoints.map((point) => (
+                  <li>
+                    <h3>{point.title}</h3>
+                    <p>{point.text}</p>
+                  </li>
+                ))
+              }
+            </ul>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -73,8 +111,10 @@ const steps = stepTitles.map((title, index) => ({ title, text: stepDetails[index
     </figure>
 
     <section class="section" id="rozkladanie" aria-labelledby="unfold-title">
-      <div class="wrap split">
-        <div>
+      <div class="wrap unfold">
+        <div class="unfold-media">
+          <p class="eyebrow">Ako sa dom rozkladá</p>
+          <h2 id="unfold-title">Päť krokov a dom stojí</h2>
           <InlineVideo
             id="unfold-3d"
             class="clip-wide"
@@ -88,10 +128,8 @@ const steps = stepTitles.map((title, index) => ({ title, text: stepDetails[index
           </p>
         </div>
         <div>
-          <p class="eyebrow">Ako sa dom rozkladá</p>
-          <h2 id="unfold-title">Päť krokov a dom stojí</h2>
           <p>Video celého rozloženia je z výroby dodávateľa a spustí sa až po kliknutí.</p>
-          <ol class="steps">
+          <ol class="steps unfold-steps">
             {
               steps.map((step, index) => (
                 <li>

@@ -77,12 +77,21 @@ const widePoster = poster('hero-expand-wide');
   </div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="hero-copy">
-    <p class="eyebrow rise">Skladacie modulárne domy</p>
-    <h1 class="rise">Dom, ktorý sa rozloží za pár hodín</h1>
-    <p class="lead rise">
+    <p class="eyebrow">Skladacie modulárne domy</p>
+    <h1>
+      <span class="line"><span>Dom, ktorý</span></span>
+      <span class="line"><span>sa rozloží</span></span>
+      <span class="line"><span>za pár hodín</span></span>
+    </h1>
+    <p class="lead">
       Zložený sa zmestí do kontajnera. Na pozemku sa otvorí do domu s oceľovým rámom a izolovanými stenami.
       Väčšie modely majú v katalógu kuchyňu aj kúpeľňu.
     </p>
+    <ul class="pills">
+      <li>37–73 m²</li>
+      <li>Rozložený za pár hodín</li>
+      <li>Doprava v kontajneri</li>
+    </ul>
     <div class="cta-row">
       <a class="btn btn-solid" href={site.phone.href}>Zavolať {site.phone.display}</a>
       <a class="btn btn-ghost" href={page('/', 'obhliadka')}>Dohodnúť obhliadku</a>
@@ -92,5 +101,6 @@ const widePoster = poster('hero-expand-wide');
       <span aria-hidden="true"> · </span>
       obhliadka po telefonickej dohode
     </p>
+    <a class="scroll-cue" href="#ponuka">Posunúť nižšie</a>
   </div>
 </section>

@@ -1,30 +1,11 @@
 ---
-import InlineVideo from '../../components/InlineVideo.astro';
 import Materials from '../../components/Materials.astro';
-import Shot from '../../components/Shot.astro';
+import ModelSwitcher from '../../components/ModelSwitcher.astro';
 import Base from '../../layouts/Base.astro';
 import { site } from '../../config/site';
-import { modelName, models, type Model } from '../../lib/catalog';
+import { modelName, models } from '../../lib/catalog';
 import { containerCount, formatArea, formatBox, formatWeight } from '../../lib/format';
-import { imageCaption, isImageId, type ImageId } from '../../lib/images';
 import { page } from '../../lib/url';
-
-const videoLabel: Record<string, string> = {
-  'model-f20': 'Obhliadka modelu 20 ft. Video je bez zvuku.',
-  'model-f30': 'Obhliadka modelu 30 ft. Video je bez zvuku.',
-  'model-f40': 'Obhliadka modelu 40 ft. Video je bez zvuku.',
-};
-
-function plansFor(model: Model): { id: ImageId; alt: string }[] {
-  const plans: { id: ImageId; alt: string }[] = [];
-  if (isImageId(model.images.plan)) {
-    plans.push({ id: model.images.plan, alt: `Pôdorys modelu ${modelName(model)}` });
-  }
-  if (isImageId(model.images.plan3d)) {
-    plans.push({ id: model.images.plan3d, alt: `Priestorový pôdorys modelu ${modelName(model)}` });
-  }
-  return plans;
-}
 ---
 
 <Base
@@ -42,75 +23,7 @@ function plansFor(model: Model): { id: ImageId; alt: string }[] {
         </p>
       </header>
 
-      {
-        models.map((model) => {
-          const photo = isImageId(model.images.photo) ? model.images.photo : null;
-          const video = model.images.video;
-          const plans = plansFor(model);
-          return (
-            <article class="model-card" id={`model-${model.id}`}>
-              <div class="model-media">
-                {photo ? (
-                  <figure>
-                    <Shot id={photo} alt={`${modelName(model)}. ${imageCaption(photo)}`} group={`photo-${model.id}`} sizes="(min-width: 900px) 40vw, 100vw" />
-                    <figcaption class="caption">{imageCaption(photo)}</figcaption>
-                  </figure>
-                ) : (
-                  <div class="model-fallback" aria-hidden="true">
-                    <span>{formatArea(model.area_m2)}</span>
-                  </div>
-                )}
-                {video && (
-                  <InlineVideo
-                    id={video}
-                    class="clip-model"
-                    width={720}
-                    height={1280}
-                    label={videoLabel[video] ?? `Video modelu ${modelName(model)}. Video je bez zvuku.`}
-                  />
-                )}
-              </div>
-              <div>
-                <h2>{modelName(model)}</h2>
-                <p class="area">
-                  {model.area_m2}
-                  <small>m²</small>
-                </p>
-                <p class="layout">{model.layout_sk_draft}</p>
-                <dl class="specs">
-                  <div>
-                    <dt>Rozmery rozloženého domu</dt>
-                    <dd>{formatBox(model.expanded_mm)}</dd>
-                  </div>
-                  <div>
-                    <dt>Zložený</dt>
-                    <dd>{formatBox(model.folded_mm)}</dd>
-                  </div>
-                  <div>
-                    <dt>Hmotnosť</dt>
-                    <dd>{formatWeight(model.weight_t)}</dd>
-                  </div>
-                  <div>
-                    <dt>Do kontajnera 40′ HC</dt>
-                    <dd>{containerCount(model)}</dd>
-                  </div>
-                  <div>
-                    <dt>Dispozícia</dt>
-                    <dd>{model.layout_sk_draft}</dd>
-                  </div>
-                </dl>
-                {plans.length > 0 && (
-                  <div class="plans">
-                    {plans.map((plan) => (
-                      <Shot id={plan.id} alt={plan.alt} group={`plan-${model.id}`} sizes="180px" />
-                    ))}
-                  </div>
-                )}
-              </div>
-            </article>
-          );
-        })
-      }
+      <ModelSwitcher />
 
       <section class="compare" aria-labelledby="compare-title">
         <div class="section-head">
