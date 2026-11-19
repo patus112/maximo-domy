@@ -70,33 +70,31 @@ const steps = stepTitles.map((title, index) => ({ title, text: stepDetails[index
               label="Zariadený 20 ft dom. Video je bez zvuku."
             />
           </article>
-          <article>
+          <article class="bento-stat">
             <p class="stat">18–146</p>
             <p>m² v katalógu, od 10 ft po spojený 40 ft</p>
           </article>
-          <article class="bento-accent">
+          <article class="bento-stat bento-accent">
             <p class="stat">25–40</p>
             <p>dní výroba</p>
           </article>
-          <article class="parallax">
-            <Picture id="lineup" alt="Dom s tmavým rámom a terasou, záber z katalógu dodávateľa." sizes="(min-width: 800px) 30vw, 100vw" />
+          <article class="bento-photo">
+            <Picture id="lineup" alt="Dom s tmavým rámom a terasou, záber z katalógu dodávateľa." sizes="(min-width: 900px) 24vw, 100vw" />
           </article>
-          <article>
+          <article class="bento-stat">
             <p class="stat">4</p>
             <p>domy 10 ft sa zmestia do jedného kontajnera 40′ HC</p>
           </article>
-          <article class="bento-copy">
-            <ul class="point-grid">
-              {
-                sellingPoints.map((point) => (
-                  <li>
-                    <h3>{point.title}</h3>
-                    <p>{point.text}</p>
-                  </li>
-                ))
-              }
-            </ul>
-          </article>
+          <ul class="bento-features">
+            {
+              sellingPoints.map((point) => (
+                <li>
+                  <h3>{point.title}</h3>
+                  <p>{point.text}</p>
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     </section>

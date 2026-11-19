@@ -161,12 +161,11 @@ test('mobile hero keeps the headline and both calls to action on screen', async 
   const header = await box('.site-header');
   const title = await box('h1');
   const call = await box('.hero-copy .btn-solid');
-  const visit = await box('.hero-copy .btn-ghost');
   const dock = await box('.dock');
   expect(title.y).toBeGreaterThanOrEqual(header.y + header.height - 1);
   expect(call.y + call.height).toBeLessThanOrEqual(dock.y + 1);
-  expect(visit.y + visit.height).toBeLessThanOrEqual(dock.y + 1);
   expect(dock.y + dock.height).toBeLessThanOrEqual(844.5);
+  await expect(page.locator('.dock')).toContainText('Obhliadka');
 });
 
 test('at most one video is playing', async ({ page }) => {
